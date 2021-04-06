@@ -21,41 +21,29 @@ public class FRead {
             fileContent = fileContent.concat(scan.nextLine() + "\n");
 
         }
+        scan.close();
         return fileContent;
 
     }
 
-
-    //TODO: - sometimes words at Start/End of Lists are being separated in half by a comma, need to check this loop.
     public List<String> FullFileToArraySplitter(String filename){
-
-        //Book newBook1 = new Book(filename);
         String fullTxt = FRead.FReader(filename);
 
-        //newBook1.setRawText(fullTxt);
-
-        String delimsStart = "\\*\\*\\* START OF THIS PROJECT GUTENBERG";
-        String delimsEnd = "\\*\\*\\* END OF THIS PROJECT GUTENBERG";
+        String delimsStart = "START OF THIS PROJECT GUTENBERG";
+        String delimsEnd = "END OF THIS PROJECT GUTENBERG";
 
         String[] discardStart = fullTxt.split(delimsStart);
-        String[] discardEnd = discardStart[1].split(delimsEnd);
-
+        String[] discardEnd = discardStart[0].split(delimsEnd);
 
         String startAndEndRemoved = discardEnd[0];
-
 
         List<String> bookInArray = new ArrayList<String>();
 
         int index = 0;
-
-        //loop to split the book into chunks of 2000 elements for CoreNLP analysis (larger strings cannot be handled well.)
-
+        //loop to split the book into chunks of 15000 characters for CoreNLP analysis
         while (index < startAndEndRemoved.length()){
-            //bookInArray.add(bookInArray.size(), startAndEndRemoved.substring(index, Math.min(index + 2000, startAndEndRemoved.length())));
-            //index += 2000;
-            bookInArray.add(startAndEndRemoved.substring(index, Math.min(index + 2000, startAndEndRemoved.length())));
-            index +=2000;
-
+            bookInArray.add(startAndEndRemoved.substring(index, Math.min(index +10000, startAndEndRemoved.length())));
+            index +=10000;
         }
 
 
@@ -73,7 +61,4 @@ public class FRead {
         //System.out.println("We have added the broken down book into ListArray for Book object");
         return bookInArray;
     }
-
-
-
 }

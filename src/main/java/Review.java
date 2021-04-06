@@ -2,10 +2,27 @@ import java.util.*;
 
 public class Review {
 
-    private ArrayList ArrSet = new ArrayList<String>();
+    private ArrayList bkOneArrSet = new ArrayList<String>();
+    private ArrayList bkTwoArrSet = new ArrayList<String>();
+    private ArrayList bkThreeArrSet = new ArrayList<String>();
+    private ArrayList bkFourArrSet = new ArrayList<String>();
 
-    private ArrayList begSet = new ArrayList<String>();
-    private ArrayList intermediateSet = new ArrayList<String>();
+    public ArrayList bKOneBegSet = new ArrayList<String>();
+    public ArrayList bKTwoBegSet = new ArrayList<String>();
+    public ArrayList bKThreeBegSet = new ArrayList<String>();
+    public ArrayList bKFourBegSet = new ArrayList<String>();
+
+    public ArrayList bKOneIntermediateSet = new ArrayList<String>();
+    public ArrayList bKTwoIntermediateSet = new ArrayList<String>();
+    public ArrayList bKThreeIntermediateSet = new ArrayList<String>();
+    public ArrayList bKFourIntermediateSet = new ArrayList<String>();
+
+    public ArrayList bKOneAdvancedSet = new ArrayList<String>();
+    public ArrayList bKTwoAdvancedSet = new ArrayList<String>();
+    public ArrayList bKThreeAdvancedSet = new ArrayList<String>();
+    public ArrayList bKFourAdvancedSet = new ArrayList<String>();
+
+
     private ArrayList advancedSet = new ArrayList<String>();
 
     public ArrayList bkOneTwentyBegSet = new ArrayList<String>();
@@ -25,41 +42,150 @@ public class Review {
     public ArrayList bkFourtwentyAdvancedSet = new ArrayList<String>();
 
 
-    public void setArrayKeySet (Set sortedMapKey) {
+    public void setBkOneArrayKeySet (Set sortedMapKey) {
         for (Object word: sortedMapKey){
-            this.ArrSet.add(word);
+            this.bkOneArrSet.add(word);
+        }
+    }
+    public void setBkTwoArrayKeySet (Set sortedMapKey) {
+        for (Object word: sortedMapKey){
+            this.bkTwoArrSet.add(word);
+        }
+    }
+    public void setBkThreeArrayKeySet (Set sortedMapKey) {
+        for (Object word: sortedMapKey){
+            this.bkThreeArrSet.add(word);
+        }
+    }
+    public void setBkFourArrayKeySet (Set sortedMapKey) {
+        for (Object word: sortedMapKey){
+            this.bkFourArrSet.add(word);
         }
     }
 
-    public void setBeginnerSet(ArrayList sortedArrList){
+    public void setBkOneBeginnerSet(ArrayList sortedArrList){
 
         int sortedArrSizeDivided3 = sortedArrList.size()/3;
-        int startPoint = sortedArrList.size() - sortedArrSizeDivided3;
+        int startPoint = sortedArrSizeDivided3*2;
+
+        for (int i = startPoint; i < sortedArrList.size(); i++){
+            this.bKOneBegSet.add(sortedArrList.get(i));
+        }
+    }
+    public void setBkTwoBeginnerSet(ArrayList sortedArrList){
+
+        int sortedArrSizeDivided3 = sortedArrList.size()/3;
+        int startPoint = sortedArrSizeDivided3*2;
         //Collections.shuffle(sortedArrList);
 
         for (int i = startPoint; i < sortedArrList.size(); i++){
-            this.begSet.add(sortedArrList.get(i));
+            this.bKTwoBegSet.add(sortedArrList.get(i));
         }
     }
-    public void setIntermediateSet(ArrayList sortedArrList){
+    public void setBkThreeBeginnerSet(ArrayList sortedArrList){
 
         int sortedArrSizeDivided3 = sortedArrList.size()/3;
-        int startPoint = sortedArrList.size() - (sortedArrSizeDivided3*2);
+        int startPoint = sortedArrSizeDivided3*2;
+        //Collections.shuffle(sortedArrList);
+
+        for (int i = startPoint; i < sortedArrList.size(); i++){
+            this.bKThreeBegSet.add(sortedArrList.get(i));
+        }
+    }
+    public void setBkFourBeginnerSet(ArrayList sortedArrList){
+
+        int sortedArrSizeDivided3 = sortedArrList.size()/3;
+        int startPoint = sortedArrSizeDivided3*2;
+        //Collections.shuffle(sortedArrList);
+
+        for (int i = startPoint; i < sortedArrList.size(); i++){
+            this.bKFourBegSet.add(sortedArrList.get(i));
+        }
+    }
+
+    public void setBkOneIntermediateSet(ArrayList sortedArrList){
+
+        int sortedArrSizeDivided3 = sortedArrList.size()/3;
+        int startPoint = sortedArrSizeDivided3;
 
         //Collections.shuffle(Collections.singletonList(sortedArrList));
 
-        for (int i = startPoint; i < (sortedArrList.size() - sortedArrSizeDivided3); i++){
-            this.intermediateSet.add(sortedArrList.get(i));
+        for (int i = startPoint; i < (sortedArrSizeDivided3*2); i++){
+            this.bKOneIntermediateSet.add(sortedArrList.get(i));
         }
     }
-    public void setAdvancedSet(ArrayList sortedArrList){
+    public void setBkTwoIntermediateSet(ArrayList sortedArrList){
+
+        int sortedArrSizeDivided3 = sortedArrList.size()/3;
+        int startPoint = sortedArrSizeDivided3;
+
+        //Collections.shuffle(Collections.singletonList(sortedArrList));
+
+        for (int i = startPoint; i < (sortedArrSizeDivided3*2); i++){
+            this.bKTwoIntermediateSet.add(sortedArrList.get(i));
+        }
+    }
+    public void setBkThreeIntermediateSet(ArrayList sortedArrList){
+
+        int sortedArrSizeDivided3 = sortedArrList.size()/3;
+        int startPoint = sortedArrSizeDivided3;
+
+        //Collections.shuffle(Collections.singletonList(sortedArrList));
+
+        for (int i = startPoint; i < (sortedArrSizeDivided3*2); i++){
+            this.bKThreeIntermediateSet.add(sortedArrList.get(i));
+        }
+    }
+    public void setBkFourIntermediateSet(ArrayList sortedArrList){
+
+        int sortedArrSizeDivided3 = sortedArrList.size()/3;
+        int startPoint = sortedArrSizeDivided3;
+
+        //Collections.shuffle(Collections.singletonList(sortedArrList));
+
+        for (int i = startPoint; i < (sortedArrSizeDivided3*2); i++){
+            this.bKFourIntermediateSet.add(sortedArrList.get(i));
+        }
+    }
+
+    public void setBkOneAdvancedSet(ArrayList sortedArrList){
 
         int sortedArrSizeDivided3 = sortedArrList.size()/3;
         int startPoint = 0;
         //Collections.shuffle(Collections.singletonList(sortedArrList));
 
         for (int i = startPoint; i < sortedArrSizeDivided3; i++){
-            this.advancedSet.add(sortedArrList.get(i));
+            this.bKOneAdvancedSet.add(sortedArrList.get(i));
+        }
+    }
+    public void setBkTwoAdvancedSet(ArrayList sortedArrList){
+
+        int sortedArrSizeDivided3 = sortedArrList.size()/3;
+        int startPoint = 0;
+        //Collections.shuffle(Collections.singletonList(sortedArrList));
+
+        for (int i = startPoint; i < sortedArrSizeDivided3; i++){
+            this.bKTwoAdvancedSet.add(sortedArrList.get(i));
+        }
+    }
+    public void setBkThreeAdvancedSet(ArrayList sortedArrList){
+
+        int sortedArrSizeDivided3 = sortedArrList.size()/3;
+        int startPoint = 0;
+        //Collections.shuffle(Collections.singletonList(sortedArrList));
+
+        for (int i = startPoint; i < sortedArrSizeDivided3; i++){
+            this.bKThreeAdvancedSet.add(sortedArrList.get(i));
+        }
+    }
+    public void setBkFourAdvancedSet(ArrayList sortedArrList){
+
+        int sortedArrSizeDivided3 = sortedArrList.size()/3;
+        int startPoint = 0;
+        //Collections.shuffle(Collections.singletonList(sortedArrList));
+
+        for (int i = startPoint; i < sortedArrSizeDivided3; i++){
+            this.bKFourAdvancedSet.add(sortedArrList.get(i));
         }
     }
 
@@ -67,69 +193,50 @@ public class Review {
         Collections.shuffle(bookOneinArrList);
 
         for (int j = 0; j < bookOneinArrList.size(); j++) {
-            for (int i = 0; i < begSet.size(); i++) {
                 if (bkOneTwentyBegSet.size() == 20) {
                     break;
+                }else{
+                    bkOneTwentyBegSet.add(bookOneinArrList.get(j));
                 }
-                if (begSet.get(i).equals(bookOneinArrList.get(j))) {
-                    if (bkOneTwentyBegSet.contains(begSet.get(i))) {
-                        continue;
-                    } else {
-                        bkOneTwentyBegSet.add(begSet.get(i));
-                    }
-                }
-            }
         }
     }
     public void setBkTwoTwentyBegSet(ArrayList<String> bookTwoinArrList) {
         Collections.shuffle(bookTwoinArrList);
 
         for (int j = 0; j < bookTwoinArrList.size(); j++) {
-            for (int i = 0; i < begSet.size(); i++) {
-                if (bkTwoTwentyBegSet.size() == 20) {
-                    break;
-                }
-                if (begSet.get(i).equals(bookTwoinArrList.get(j))) {
-                    if (bkTwoTwentyBegSet.contains(begSet.get(i))) {
-                        continue;
-                    } else {
-                        bkTwoTwentyBegSet.add(begSet.get(i));
-                    }
-                }
+            if (bkTwoTwentyBegSet.size() == 20) {
+                break;
+            } else {
+                bkTwoTwentyBegSet.add(bKTwoBegSet.get(j));
             }
         }
     }
+
     public void setBkThreeTwentyBegSet(ArrayList<String> bookThreeinArrList) {
         Collections.shuffle(bookThreeinArrList);
 
         for (int j = 0; j < bookThreeinArrList.size(); j++) {
-            for (int i = 0; i < begSet.size(); i++) {
-                if (bkThreeTwentyBegSet.size() == 20) {
-                    break;
-                }
-                if (begSet.get(i).equals(bookThreeinArrList.get(j))) {
-                    if (bkThreeTwentyBegSet.contains(begSet.get(i))) {
-                        continue;
-                    } else {
-                        bkThreeTwentyBegSet.add(begSet.get(i));
-                    }
-                }
+            if (bkThreeTwentyBegSet.size() == 20) {
+                break;
+            } else {
+                bkThreeTwentyBegSet.add(bKThreeBegSet.get(j));
             }
         }
     }
+
     public void setBkFourTwentyBegSet(ArrayList<String> bookFourinArrList) {
         Collections.shuffle(bookFourinArrList);
 
         for (String s : bookFourinArrList) {
-            for (int i = 0; i < begSet.size(); i++) {
+            for (int i = 0; i < bKFourBegSet.size(); i++) {
                 if (bkFourTwentyBegSet.size() == 20) {
                     break;
                 }
-                if (begSet.get(i).equals(s)) {
-                    if (bkFourTwentyBegSet.contains(begSet.get(i))) {
+                if (bKFourBegSet.get(i).equals(s)) {
+                    if (bkFourTwentyBegSet.contains(bKFourBegSet.get(i))) {
                         continue;
                     } else {
-                        bkFourTwentyBegSet.add(begSet.get(i));
+                        bkFourTwentyBegSet.add(bKFourBegSet.get(i));
                     }
                 }
             }
@@ -139,7 +246,7 @@ public class Review {
     public void setBkOneTwentyIntermediateSet(ArrayList<String> bookOneinArrList) {
         Collections.shuffle(bookOneinArrList);
         for (String s : bookOneinArrList) {
-            for (Object o : intermediateSet) {
+            for (Object o : bKOneIntermediateSet) {
                 if (bkOnetwentyInterSet.size() == 20) {
                     break;
                 }
@@ -154,11 +261,10 @@ public class Review {
             }
         }
     }
-
     public void setBkTwoTwentyIntermediateSet(ArrayList<String> bookTwoinArrList) {
         Collections.shuffle(bookTwoinArrList);
         for (String s : bookTwoinArrList) {
-            for (Object o : intermediateSet) {
+            for (Object o : bKTwoIntermediateSet) {
                 if (bkTwotwentyInterSet.size() == 20) {
                     break;
                 }
@@ -173,11 +279,10 @@ public class Review {
             }
         }
     }
-
     public void setBkThreeTwentyIntermediateSet(ArrayList<String> bookThreeinArrList) {
         Collections.shuffle(bookThreeinArrList);
         for (String s : bookThreeinArrList) {
-            for (Object o : intermediateSet) {
+            for (Object o : bKThreeIntermediateSet) {
                 if (bkThreeTwentyInterSet.size() == 20) {
                     break;
                 }
@@ -192,52 +297,99 @@ public class Review {
             }
         }
     }
-
     public void setBkFourTwentyIntermediateSet(ArrayList<String> bookFourinArrList) {
         Collections.shuffle(bookFourinArrList);
         for (String s : bookFourinArrList) {
-            for (Object o : intermediateSet) {
+            for (Object o : bKFourIntermediateSet) {
                 if (bkFourtwentyInterSet.size() == 20) {
                     break;
                 }
-                if (o.equals(s)) {
-                    if (bkFourtwentyInterSet.contains(o)) {
-                        continue;
-                    } else {
-                        bkFourtwentyInterSet.add(o);
-                    }
-
-                }
+                bkFourtwentyInterSet.add(o);
             }
         }
     }
 
-    public void setTwentyAdvancedSet(ArrayList<String> bookOneinArrList) {
+    public void setBkOneTwentyAdvancedSet(ArrayList<String> bookOneinArrList) {
         Collections.shuffle(bookOneinArrList);
 
         for (int j = 0; j < bookOneinArrList.size(); j++) {
-            for (int i = 0; i < advancedSet.size(); i++) {
                 if (bkOnetwentyAdvancedSet.size() == 20) {
                     break;
-                }
-                if (advancedSet.get(i).equals(bookOneinArrList.get(j))) {
-                    if (bkOnetwentyAdvancedSet.contains(advancedSet.get(i))) {
-                        continue;
-                    } else {
-                        bkOnetwentyAdvancedSet.add(advancedSet.get(i));
-                    }
+                } else{bkOnetwentyAdvancedSet.add(bookOneinArrList.get(j));
+            }
+        }
+    }
+    public void setBkTwoTwentyAdvancedSet(ArrayList<String> bookTwoinArrList) {
+        Collections.shuffle(bookTwoinArrList);
 
-                }
+        for (int j = 0; j < bookTwoinArrList.size(); j++) {
+                if (bkTwotwentyAdvancedSet.size() == 20) {
+                    break;
+                }else{bkTwotwentyAdvancedSet.add(bookTwoinArrList.get(j));
+            }
+        }
+    }
+    public void setBkThreeTwentyAdvancedSet(ArrayList<String> bookThreeinArrList) {
+        Collections.shuffle(bookThreeinArrList);
+
+        for (int j = 0; j < bookThreeinArrList.size(); j++) {
+                if (bkThreeTwentyAdvancedSet.size() == 20) {
+                    break;
+                } else {bkThreeTwentyAdvancedSet.add(bookThreeinArrList.get(j));
+            }
+        }
+    }
+    public void setBkFourTwentyAdvancedSet(ArrayList<String> bookFourinArrList) {
+        Collections.shuffle(bookFourinArrList);
+
+        for (int j = 0; j < bookFourinArrList.size(); j++) {
+                if (bkFourtwentyAdvancedSet.size() == 20) {
+                    break;
+                } else {bkFourtwentyAdvancedSet.add(bookFourinArrList.get(j));
             }
         }
     }
 
-    public ArrayList getBeginnerArrList() {
-        return begSet;
+    public ArrayList getBkOneBeginnerArrList() {
+        return bKOneBegSet;
     }
-    public ArrayList getIntermediateSet(){
-        return intermediateSet;
+    public ArrayList getBkTwoBeginnerArrList() {
+        return bKTwoBegSet;
     }
+    public ArrayList getBkThreeBeginnerArrList() {
+        return bKThreeBegSet;
+    }
+    public ArrayList getBkFourBeginnerArrList() {
+        return bKFourBegSet;
+    }
+    public ArrayList getBkOneIntermediateSet(){
+        return bKOneIntermediateSet;
+    }
+    public ArrayList getBkTwoIntermediateSet(){
+        return bKTwoIntermediateSet;
+    }
+    public ArrayList getBkThreeIntermediateSet(){
+        return bKThreeIntermediateSet;
+    }
+    public ArrayList getBkFourIntermediateSet(){
+        return bKFourIntermediateSet;
+    }
+
+    public ArrayList getbKOneAdvancedSet(){
+        return bKOneAdvancedSet;
+    }
+    public ArrayList getbKTwoAdvancedSet(){
+        return bKTwoAdvancedSet;
+    }
+    public ArrayList getbKThreeAdvancedSet(){
+        return bKThreeAdvancedSet;
+    }
+    public ArrayList getbKFourAdvancedSet(){
+        return bKFourAdvancedSet;
+    }
+
+
+
     public ArrayList getAdvancedSet(){
         return advancedSet;
     }
@@ -283,8 +435,20 @@ public class Review {
     }
 
 
-    public ArrayList getArraySet(){
-        return ArrSet;
+    public ArrayList getBkOneArrSet(){
+        return bkOneArrSet;
+    }
+
+    public ArrayList getBkTwoArrSet(){
+        return bkTwoArrSet;
+    }
+
+    public ArrayList getBkThreeArrSet(){
+        return bkThreeArrSet;
+    }
+
+    public ArrayList getBkFourArrSet(){
+        return bkFourArrSet;
     }
 
 }

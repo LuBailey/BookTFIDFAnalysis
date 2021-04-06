@@ -6,6 +6,8 @@ import edu.stanford.nlp.util.CoreMap;
 import java.io.*;
 import java.util.*;
 import java.lang.String;
+import java.util.stream.Collectors;
+
 import static java.util.stream.Collectors.toMap;
 
 public class CoreNLP {
@@ -19,13 +21,6 @@ public class CoreNLP {
         CoreNLP obj = new CoreNLP();
     }
     public CoreNLP() {
-/*
-testing area
-        List<String> doc1 = Arrays.asList("Lorem", "ipsum", "dolor", "ipsum", "sit", "ipsum");
-        List<String> doc2 = Arrays.asList("Vituperata", "incorrupte", "at", "ipsum", "pro", "quo");
-        List<String> doc3 = Arrays.asList("Has", "persius", "disputationi", "id", "simul");
-        List<List<String>> documents = Arrays.asList(doc1, doc2, doc3);
-*/
 
         FRead fileReadObjOne = new FRead();
         FRead fileReadObjTwo = new FRead();
@@ -33,20 +28,18 @@ testing area
         FRead fileReadObjFour = new FRead();
         //pre coreNLP processed texts
 
-
         ArrayList bookOneToList = (ArrayList) fileReadObjOne.FullFileToArraySplitter("The Project Gutenberg EBook of Pride and Prejudice, by Jane Austen.txt");
         ArrayList bookTwoToList = (ArrayList) fileReadObjTwo.FullFileToArraySplitter("The Project Gutenberg's EBook of Frankenstein, by Mary Wollstonecraft (Godwin) Shelley.txt");
         ArrayList bookThreeToList = (ArrayList) fileReadObjThree.FullFileToArraySplitter("The Project Gutenberg EBook of A Christmas Carol, by Charles Dickens.txt");
         ArrayList bookFourToList = (ArrayList) fileReadObjFour.FullFileToArraySplitter("The Project Gutenberg EBook of The Strange Case Of Dr. Jekyll .txt");
 
         List<ArrayList<String>> documents = new ArrayList<>();
-        ArrayList emptyList = new ArrayList<String>();
-        documents.add(emptyList);
+        //ArrayList emptyList = new ArrayList<String>();
+        //documents.add(emptyList);
 
 
         //BookOne (PaP) broken down
         Book bookOne = new Book("The Project Gutenberg EBook of Pride and Prejudice, by Jane Austen.txt");
-
         for (int i = 0; i < bookOneToList.size(); i++) {
             bookOne.setBrokenDownText(nlpProcess((String) bookOneToList.get(i)));
         }
@@ -61,7 +54,7 @@ testing area
 
         Book bookThree = new Book("The Project Gutenberg EBook of A Christmas Carol, by Charles Dickens.txt");
         for (int i = 0; i < bookThreeToList.size(); i++) {
-            bookOne.setBrokenDownText(nlpProcess((String) bookThreeToList.get(i)));
+            bookThree.setBrokenDownText(nlpProcess((String) bookThreeToList.get(i)));
         }
         documents.add(bookThree.getBrokenDownText());
 
@@ -71,117 +64,101 @@ testing area
         }
         documents.add(bookFour.getBrokenDownText());
 
-        //TFIDF Calculations
-        int tfValue;
+        //TFIDF Calculation
+        int index = 0; //index to specify array index of when adding the newly sorted LinkedHashMaps into the Arraylist
         for (ArrayList doc : documents) {
+            tfidfMatrix TFIDFMat = new tfidfMatrix();
             for (int i = 0; i < doc.size(); i++) {
-                calctfidf.mappedTFIDF((String) doc.get(i), calctfidf.tfIdf(doc, documents, (String) doc.get(i)));
-
-                /*
-                System.out.println(doc.get(i) + " " + calctfidf.tf(doc, (String) doc.get(i)));
-                System.out.println();
-                System.out.println((String) doc.get(i) + " " + calctfidf.idf(documents, (String) doc.get(i)));
-
-                 */
-
-
-            /*
-            for (int i = 0; i<doc.size(); i++){
-                calctfidf.TFIDFValuesToArrList(calctfidf.tfIdf(doc, documents, (String) doc.get(i)));
-                calctfidf.TFIDFStringToArrList((String) doc.get(i));
+                if (TFIDFMat.mappedTFIDF.containsKey(doc.get(i))) {
+                    continue;
+                } else {
+                    TFIDFMat.mappedTFIDF((String) doc.get(i), TFIDFMat.tfIdf(doc, documents, (String) doc.get(i)));
+                }
             }
+            //sorting the map <Word(K), TFIDF Values(V)> by the values, from lowest to highest TFIDF values.
+            calctfidf.sortedMappedTFIDF = TFIDFMat.mappedTFIDF
+                    .entrySet()
+                    .stream()
+                    .sorted(Map.Entry.comparingByValue())  //can insert Comparator.reverseOrder() as a parameter to go from highest -> lowest
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
 
-
-             */
-            }
+            calctfidf.listOfMappedTFIDF.add(index, calctfidf.sortedMappedTFIDF);
+            index++;
         }
 
+        //System.out.println(calctfidf.listOfMappedTFIDF.get(0));
 
-        //sorting the hashmap of words/TFIDF values.
-        /*
-        calctfidf.sortedMappedTFIDF = calctfidf.mappedTFIDF
-                .entrySet()
-                .stream()
-                .sorted(Map.Entry.comparingByValue())
-                .collect(toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e2, LinkedHashMap::new));
+        calctfidf.bkOneTFIDFKeys = calctfidf.listOfMappedTFIDF.get(0).keySet();
+        calctfidf.bkTwoTFIDFKeys = calctfidf.listOfMappedTFIDF.get(1).keySet();
+        calctfidf.bkThreeTFIDFKeys = calctfidf.listOfMappedTFIDF.get(2).keySet();
+        calctfidf.bkFourTFIDFKeys = calctfidf.listOfMappedTFIDF.get(3).keySet();
 
+        calctfidf.bkOneTFIDFVal = calctfidf.listOfMappedTFIDF.get(0).values();
 
-         */
-        calctfidf.setSortedMappedTFIDF(calctfidf.mappedTFIDF
-                .entrySet()
-                .stream()
-                .sorted(Map.Entry.comparingByValue())
-                .collect(toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e2, LinkedHashMap::new)));
-
-        calctfidf.setStringTFIDF(calctfidf.getSortedMappedTFIDF().keySet());
-        calctfidf.setTFIDFvalues(calctfidf.getSortedMappedTFIDF().values());
-        System.out.println("calc tfidf TFIDF str " + calctfidf.getTFIDFValues());
-        System.out.println("calc tfidf TFIDF vals " + calctfidf.getTFIDFStrings());
-
-        System.out.println("calc tfidf val at pos 1" + calctfidf.getTFIDFValues().get(1));
-        System.out.println("calc tfidf str at pos 1" + calctfidf.getTFIDFStrings().get(1));
-
-        //System.out.println("tfidf sorted map keyset" + calctfidf.getSortedMappedTFIDF().keySet());
-        //System.out.println("tfidf sorted map values" + calctfidf.getSortedMappedTFIDF().values());
+        calctfidf.bkTwoTFIDFVal = calctfidf.listOfMappedTFIDF.get(1).values();
+        calctfidf.bkThreeTFIDFVal = calctfidf.listOfMappedTFIDF.get(2).values();
+        calctfidf.bkFourTFIDFVal = calctfidf.listOfMappedTFIDF.get(3).values();
 
 
-//testing iterating over a hashmap by indexes
-        /*
-        for (int i = 0; i < calctfidf.sortedMappedTFIDF.size(); i++) {
-            rev.setArrayKeySet(rev.getElementByIndex((LinkedHashMap) calctfidf.sortedMappedTFIDF, i));
-        }
+        List<String> bkOneArrListKeys = new ArrayList<>(calctfidf.bkOneTFIDFKeys);
+        calctfidf.bkOneArrListKeys = (ArrayList<String>) bkOneArrListKeys;
+        System.out.println("calctfidf.bkOneTFIDFKeys" + calctfidf.bkOneTFIDFKeys);
+        List<String> bkTwoArrListKeys = new ArrayList<>(calctfidf.bkTwoTFIDFKeys);
+        calctfidf.bkTwoArrListKeys = (ArrayList<String>) bkTwoArrListKeys;
+        List<String> bkThreeArrListKeys = new ArrayList<>(calctfidf.bkThreeTFIDFKeys);
+        calctfidf.bkThreeArrListKeys = (ArrayList<String>) bkThreeArrListKeys;
+        List<String> bkFourArrListKeys = new ArrayList<>(calctfidf.bkFourTFIDFKeys);
+        calctfidf.bkFourArrListKeys = (ArrayList<String>) bkFourArrListKeys;
 
-         */
+        List<Double> bkOneArrListVals  = new ArrayList<>(calctfidf.bkOneTFIDFVal);
+        calctfidf.bkOneArrListVals = (ArrayList<Double>) bkOneArrListVals;
+        List<Double> bkTwoArrListVals  = new ArrayList<>(calctfidf.bkTwoTFIDFVal);
+        calctfidf.bkTwoArrListVals = (ArrayList<Double>) bkTwoArrListVals;
+        List<Double> bkThreeArrListVals  = new ArrayList<>(calctfidf.bkThreeTFIDFVal);
+        calctfidf.bkThreeArrListVals = (ArrayList<Double>) bkThreeArrListVals;
+        List<Double> bkFourArrListVals = new ArrayList<>(calctfidf.bkFourTFIDFVal);
+        calctfidf.bkFourArrListVals = (ArrayList<Double>) bkFourArrListVals;
 
-        rev.setArrayKeySet(calctfidf.getSortedMappedTFIDF().keySet());
-        //System.out.println(rev.getArraySet().get(0));
+        rev.setBkOneArrayKeySet(calctfidf.listOfMappedTFIDF.get(0).keySet());
+        rev.setBkTwoArrayKeySet(calctfidf.listOfMappedTFIDF.get(1).keySet());
+        rev.setBkThreeArrayKeySet(calctfidf.listOfMappedTFIDF.get(2).keySet());
+        rev.setBkFourArrayKeySet(calctfidf.listOfMappedTFIDF.get(3).keySet());
 
-        rev.setBeginnerSet(rev.getArraySet());
-        rev.setIntermediateSet(rev.getArraySet());
-        rev.setAdvancedSet(rev.getArraySet());
+        rev.setBkOneBeginnerSet(rev.getBkOneArrSet());
+        rev.setBkTwoBeginnerSet(rev.getBkTwoArrSet());
+        rev.setBkThreeBeginnerSet(rev.getBkThreeArrSet());
+        rev.setBkFourBeginnerSet(rev.getBkFourArrSet());
 
-        rev.setBkOneTwentyBegSet(rev.getBeginnerArrList());
-        rev.setBkTwoTwentyBegSet(rev.getBeginnerArrList());
-        rev.setBkThreeTwentyBegSet(rev.getBeginnerArrList());
-        rev.setBkFourTwentyBegSet(rev.getBeginnerArrList());
+        rev.setBkOneIntermediateSet(rev.getBkOneArrSet());
+        rev.setBkTwoIntermediateSet(rev.getBkTwoArrSet());
+        rev.setBkThreeIntermediateSet(rev.getBkThreeArrSet());
+        rev.setBkFourIntermediateSet(rev.getBkFourArrSet());
 
-        rev.setBkOneTwentyIntermediateSet(rev.getIntermediateSet());
-        rev.setBkTwoTwentyIntermediateSet(rev.getIntermediateSet());
-        rev.setBkThreeTwentyIntermediateSet(rev.getIntermediateSet());
-        rev.setBkFourTwentyIntermediateSet(rev.getIntermediateSet());
+        rev.setBkOneAdvancedSet(rev.getBkOneArrSet());
+        rev.setBkTwoAdvancedSet(rev.getBkTwoArrSet());
+        rev.setBkThreeAdvancedSet(rev.getBkThreeArrSet());
+        rev.setBkFourAdvancedSet(rev.getBkFourArrSet());
 
-        rev.setTwentyAdvancedSet(rev.getAdvancedSet());
+        rev.setBkOneTwentyBegSet(rev.getBkOneBeginnerArrList());
+        rev.setBkTwoTwentyBegSet(rev.getBkTwoBeginnerArrList());
+        rev.setBkThreeTwentyBegSet(rev.getBkThreeBeginnerArrList());
+        rev.setBkFourTwentyBegSet(rev.getBkFourBeginnerArrList());
 
+        rev.setBkOneTwentyIntermediateSet(rev.getBkOneIntermediateSet());
+        rev.setBkTwoTwentyIntermediateSet(rev.getBkTwoIntermediateSet());
+        rev.setBkThreeTwentyIntermediateSet(rev.getBkThreeIntermediateSet());
+        rev.setBkFourTwentyIntermediateSet(rev.getBkFourIntermediateSet());
 
-
-        /*
-        GUIReview guiReview = new GUIReview();
-        guiReview.setArrayKeySet(calctfidf.getSortedMappedTFIDF().keySet());
-        guiReview.setBeginnerSet(rev.getArraySet());
-        guiReview.setIntermediateSet(rev.getArraySet());
-        guiReview.setAdvancedSet(rev.getArraySet());
-
-        guiReview.setBkOneTwentyBegSet(rev.getBeginnerArrList());
-        guiReview.setBkOneTwentyIntermediateSet(rev.getIntermediateSet());
-        guiReview.setTwentyAdvancedSet(rev.getAdvancedSet());
-
-        for (int i = 0; i < guiReview.getBkOneTwentyBegSet().size(); i++) {
-            new GUIReview();
-            guiReview.revWord = (String) guiReview.getBkOneTwentyBegSet().get(i);
-        }
-    }
-         */
+        rev.setBkOneTwentyAdvancedSet(rev.getbKOneAdvancedSet());
+        rev.setBkTwoTwentyAdvancedSet(rev.getbKTwoAdvancedSet());
+        rev.setBkThreeTwentyAdvancedSet(rev.getbKThreeAdvancedSet());
+        rev.setBkFourTwentyAdvancedSet(rev.getbKFourAdvancedSet());
 
     }
 
-        //nlpProcess used to get each lemma form of the text in a linkedlist
+        //nlpProcess used to get each lemma form of the text in a ArrayList
         public static ArrayList<java.lang.String> nlpProcess (String chapterized){
-
-            ArrayList<String> allTokensFromFile = new ArrayList<>();
-
-
-            //need to insert a stop words Hashset here.
-
+            ArrayList<String> allTokensFromFile = new ArrayList<>(); //ArrayList to store iteration output
             //setting up the pipeline for CoreNLP
             Properties propsNLP = new Properties();
             propsNLP.setProperty("annotators", "tokenize, ssplit, pos, lemma, ner");
@@ -194,20 +171,9 @@ testing area
             StringBuffer previousNERTAG = new StringBuffer();
             for (CoreMap sentence : sentences) {
                 for (CoreLabel token2 : sentence.get(CoreAnnotations.TokensAnnotation.class)) {
-                    // this is the text of the token
                     String word = token2.get(CoreAnnotations.TextAnnotation.class);
-//                System.out.println("the word is: " + word);
-                    // this is the lemma of the token
                     String lemma = token2.get(CoreAnnotations.LemmaAnnotation.class);
-//                System.out.println("lemma of this word is: " + lemma);
-                    // this is the POS tag of the token
-                    String pos = token2.get(CoreAnnotations.PartOfSpeechAnnotation.class);
-//                System.out.println("part of speech of this word is: " + pos);
-                    // this is the NER label of the token
                     String ne = token2.get(CoreAnnotations.NamedEntityTagAnnotation.class);
-//                System.out.println("NER tag of this word is: " + ne);
-
-                    String pattern = "\\p{Punct}";
 
                     //if statement to remove any named entity from the below choices from the word choice
                     if (ne.equals("ORGANIZATION") ||
@@ -221,18 +187,16 @@ testing area
                             ne.equals("DATE") ||
                             ne.equals("TIME") ||
                             ne.equals("DURATION") ||
-                            ne.equals("SET")) {
+                            ne.equals("SET"))
+                    {
                         word = word.trim();
                         word = word.replaceAll(word, "");
                         currentNER.append("" + word);
                         previousNERTAG = previousNERTAG.replace(0, previousNERTAG.length(), ne);
-
-                        //adding the word from text not matching the above NER criteria to a linked list.
                     } else if ((currentNER.length() != 0)) {
                         newNERWord = currentNER.toString();
                         newNERWord = newNERWord.trim();
-                        System.out.println("New NER word is: " + newNERWord);
-                        allTokensFromFile.add(newNERWord);
+                        allTokensFromFile.add(newNERWord); //adding words outside of the NE parameters set
                         currentNER.setLength(0);
                         previousNERTAG = previousNERTAG.replace(0, previousNERTAG.length(), ne);
                         word = word.trim();
@@ -250,7 +214,6 @@ testing area
                     }
                 }
             }
-            //System.out.println(allTokensFromFile);
 
             return allTokensFromFile;
         }
